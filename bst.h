@@ -356,6 +356,7 @@ template<class Key, class Value>
 BinarySearchTree<Key, Value>::BinarySearchTree() 
 {
     // TODO
+    root_ == NULL;
 }
 
 template<typename Key, typename Value>
@@ -445,6 +446,12 @@ template<class Key, class Value>
 void BinarySearchTree<Key, Value>::insert(const std::pair<const Key, Value> &keyValuePair)
 {
     // TODO
+
+    // If root is null, root=node
+    if(root_==NULL){
+        root_= keyValuePair;
+    }
+    
 }
 
 
