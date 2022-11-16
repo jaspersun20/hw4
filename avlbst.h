@@ -157,7 +157,6 @@ void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
 		// If empty tree, set root
 		// AVLNode<Key, Value>* avlroot = static_cast<AVLNode<Key, Value>*>(this->root_);
 		if(this->root_==NULL){
-			// std::cout << "empty root"<<std::endl;
 			AVLNode<Key, Value>* new_root = new AVLNode<Key, Value>(new_item.first, new_item.second, NULL);
 			this->root_=new_root;
 			new_root->setBalance(0);
@@ -220,7 +219,7 @@ void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
 // insertFix
 template<class Key, class Value>
 void  AVLTree<Key, Value>::insertFix (AVLNode<Key,Value>* p, AVLNode<Key,Value>* n){
-	// std::cout<<"insertFix!"<< std::endl;
+	// base case
 	if(p==NULL||p->getParent()==NULL){
 		return;
 	}
@@ -232,24 +231,23 @@ void  AVLTree<Key, Value>::insertFix (AVLNode<Key,Value>* p, AVLNode<Key,Value>*
 	else if(g->getRight()==p){
 		g->updateBalance(1);
 	}
-
+	// go left
 	if(p==g->getLeft()){
-		// std::cout<<"go left!"<< std::endl;
 		if(g->getBalance()==0){
 			return;
 		}
 		else if(g->getBalance()==-1){
 			insertFix(g,p);
 		}
+		// zig zig
 		else if(g->getBalance()==-2){
-			// std::cout<<"enter g==-2 check"<< std::endl;
 			if(p->getLeft()==n){
 				rightRotate(g);
 				g->setBalance(0);
 				p->setBalance(0);
 			}
+			// zig zag
 			else if(p->getRight()==n){
-				// std::cout<<"enter zigzag check"<< std::endl;
 				leftRotate(p);
 				rightRotate(g);
 				if(n->getBalance()==-1){
@@ -271,7 +269,7 @@ void  AVLTree<Key, Value>::insertFix (AVLNode<Key,Value>* p, AVLNode<Key,Value>*
 		}
 	}
 	else if(p==g->getRight()){
-		// std::cout<<"go right!"<< std::endl;
+		// go right
 		if(g->getBalance()==0){
 			return;
 		}
@@ -279,7 +277,7 @@ void  AVLTree<Key, Value>::insertFix (AVLNode<Key,Value>* p, AVLNode<Key,Value>*
 			insertFix(g,p);
 		}
 		else if(g->getBalance()==2){
-			// std::cout<<"enter g==2 check"<< std::endl;
+			// zig zig
 			if(p->getRight()==n){
 				leftRotate(g);
 				g->setBalance(0);
@@ -287,7 +285,7 @@ void  AVLTree<Key, Value>::insertFix (AVLNode<Key,Value>* p, AVLNode<Key,Value>*
 				return;
 			}
 			else if(p->getLeft()==n){
-				// std::cout<<"enter zigzag check"<< std::endl;
+				// zig zag
 				rightRotate(p);
 				leftRotate(g);
 				if(n->getBalance()==1){
@@ -409,7 +407,6 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 		}
     if(temp->getLeft()==NULL){	
 			AVLNode<Key, Value>* p = temp->getParent();
-			// std::cout<<"l"<<std::endl;
       // 1child case in right
 			if(temp->getRight()!=NULL){
 				if(this->root_==temp){
@@ -419,8 +416,6 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 					return;
 				}
 				AVLNode<Key, Value>* r = temp->getRight();
-				// std::cout<<"p"<<p->getKey()<<std::endl;
-				// std::cout<<"r"<<r->getKey()<<std::endl;
 				if(temp==temp->getParent()->getRight()){
 					p->setRight(r);
 				}
@@ -428,8 +423,6 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 					p->setLeft(r);
 				}
 				r->setParent(p);
-				// std::cout<<"p"<<p->getKey()<<std::endl;
-				// std::cout<<"r"<<r->getKey()<<std::endl;
 				temp=NULL;
 				delete temp;
 				removeFix(p,diff);
@@ -443,11 +436,9 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 					return;
 				}
 				if(temp->getParent()->getLeft()==temp){
-					// std::cout<<"left leaf"<<temp->getKey()<<std::endl;
 					temp->getParent()->setLeft(NULL);
 				}
 				else if(temp->getParent()->getRight()==temp){
-					// std::cout<<"right leaf"<<temp->getKey()<<std::endl;
 					temp->getParent()->setRight(NULL);
 				}
 				temp=NULL;
@@ -456,8 +447,7 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 			return;
     }
     else if(temp->getRight()==NULL){
-			// std::cout<<"r"<<std::endl;
-            // 1child case in left
+      // 1child case in left
 			if(temp->getLeft()!=NULL){
 				if(this->root_==temp){
 					this->root_=temp->getLeft();
@@ -467,8 +457,6 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 				}
 				AVLNode<Key, Value>* l = temp->getLeft();
 				AVLNode<Key, Value>* p = temp->getParent();
-				// std::cout<<"p"<<p->getKey()<<std::endl;
-				// std::cout<<"l"<<l->getKey()<<std::endl;
 				if(temp==temp->getParent()->getRight()){
 					p->setRight(l);
 				}
